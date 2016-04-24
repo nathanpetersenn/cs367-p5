@@ -5,7 +5,7 @@ public class GraphNode {
 
 	private String name;
 	private static int NOT_NEIGHBOR;
-	
+	List<Neighbor> neighbors;
 	
 	public GraphNode(String newName) {
 		// TODO Auto-generated constructor stub
@@ -14,35 +14,48 @@ public class GraphNode {
 	
 	public void addNeighbor(GraphNode neighbor, int cost){
 		// TODO
+		Neighbor n = new Neighbor(cost, neighbor);
+		neighbors.add(n);
 	}
 	
 	public int compareTo(GraphNode otherNode){
 		// TODO
+		//if (this.getNodeName() > otherNode.getNodeName());
 		return 0;
 	}
 	
 	public void displayCostToEachNeighbor(){
 		// TODO
+		for (int i=0; i<neighbors.size(); i++){
+			System.out.println(neighbors.get(i).getCost());
+		}
 	}
 	
 	public int getCostTo(String neighborName){
 		// TODO
+		for (int i=0; i<neighbors.size(); i++){
+			if (neighbors.get(i).getNeighborNode().equals(neighborName)){
+				return neighbors.get(i).getCost();
+			}
+		}
 		return 0;
 	}
 	
 	public GraphNode getNeighbor(String name){
 		// TODO
-		return null;
+		return this.getNeighbor(name);
 	}
 	
 	public Iterator<String> getNeighborNames() {
 		// TODO Auto-generated method stub
+		
+		//return new Iterator<String>(this.getNeighbors());
 		return null;
-	}	
+	}
 	
 	public List<Neighbor> getNeighbors() {
 		// TODO Auto-generated method stub
-		return null;
+		return neighbors;
 	}
 	
 	public String getNodeName(){

@@ -1,7 +1,7 @@
-
+import java.util.Iterator;
 
 public class Player {
-		
+	
 	private String name;
 	private int budget;
 	private int spycams;
@@ -23,10 +23,13 @@ public class Player {
 
 	/**
 	 * 
-	 * @param check
+	 * @param dec
 	 */
-	public void decreaseBudget(int check) {
-		budget = budget - check;
+	public void decreaseBudget(int dec) {
+		if (dec < 0 || budget - dec < 0){
+			throw new IllegalArgumentException();
+		}
+		budget = budget - dec;
 	}
 
 	/**
@@ -35,11 +38,12 @@ public class Player {
 	 */
 	public boolean dropSpycam() {
 		// TODO
-		if (spycams == 0){
+		if (spycams <= 0){
 			System.out.println("Not enough spycams");
 			return false;
 		}
-		
+		// TODO - actually do this
+		spycams--;
 		return false;
 	}
 	
@@ -56,8 +60,7 @@ public class Player {
 	 * @return
 	 */
 	public GraphNode getLocation() {
-		// TODO
-		return this.getLocation();
+		return node;
 	}
 	
 	/**
@@ -65,8 +68,7 @@ public class Player {
 	 * @return
 	 */
 	public String getLocationName() {
-		// TODO Auto-generated method stub
-		return null;
+		return node.getNodeName();
 	}
 
 	/**
@@ -83,10 +85,9 @@ public class Player {
 	 */
 	public void getSpycamBack(boolean pickupSpyCam){
 		if (pickupSpyCam){
-			// TODO
-			// Increment positive or negative?
 			spycams++;
 		}
+		// TODO
 	}
 
 	/**
@@ -94,8 +95,7 @@ public class Player {
 	 * @return
 	 */
 	public int getSpycams() {
-		// TODO Auto-generated method stub
-		return 0;
+		return spycams;
 	}
 	
 	/**
@@ -103,8 +103,19 @@ public class Player {
 	 * @param next
 	 * @return
 	 */
-	public boolean move(String next) {
+	public boolean move(String name) {
 		// TODO
+
+//		Iterator<GraphNode> itr = vlist.iterator();
+//		
+//		while (itr.hasNext()){
+//			GraphNode gn = itr.next();
+//			if (gn.isNeighbor(name)){
+//				budget -= node.getCostTo(gn);
+//				node = gn;
+//				return true;
+//			}
+//		}
 		return false;
 	}
 	
@@ -115,6 +126,11 @@ public class Player {
 	 */
 	public boolean pickupSpycam(GraphNode nodeFromName) {
 		// TODO Auto-generated method stub
+		if (node.getSpycam()){
+			// Has a spycam
+			
+			return true;
+		}
 		return false;
 	}
 

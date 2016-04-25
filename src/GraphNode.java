@@ -1,9 +1,9 @@
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class GraphNode {
 
 	private String name;
+	// TODO - is NOT_NEIGHBOR final?
 	private static int NOT_NEIGHBOR;
 	List<Neighbor> neighbors;
 	
@@ -14,8 +14,10 @@ public class GraphNode {
 	public GraphNode(String newName) {
 		// TODO Auto-generated constructor stub
 		name = newName;
+		neighbors = new ArrayList<Neighbor>();
+		//NOT_NEIGHBOR = 0;
 	}
-	
+
 	/**
 	 * 
 	 * @param neighbor
@@ -34,7 +36,9 @@ public class GraphNode {
 	 */
 	public int compareTo(GraphNode otherNode){
 		// TODO
-		//if (this.getNodeName() > otherNode.getNodeName());
+		int compare = this.getNodeName().compareTo(otherNode.getNodeName());
+		if (compare > 0) return 1;
+		if (compare < 0) return -1;
 		return 0;
 	}
 	
@@ -42,9 +46,8 @@ public class GraphNode {
 	 * 
 	 */
 	public void displayCostToEachNeighbor(){
-		// TODO
-		for (int i=0; i<neighbors.size(); i++){
-			System.out.println(neighbors.get(i).getCost());
+		for (Neighbor n : neighbors){
+			System.out.println(n.getNeighborNode().getNodeName() + "; " + n.getCost());
 		}
 	}
 	

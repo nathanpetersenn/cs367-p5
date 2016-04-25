@@ -23,6 +23,9 @@ public class Neighbor {
 	 */
 	public int compareTo(Neighbor otherNode){
 		// TODO
+		int compare = otherNode.toString().compareTo(this.toString());
+		if (compare > 0) return 1;
+		if (compare < 0) return -1;
 		return 0;
 	}
 	
@@ -31,7 +34,6 @@ public class Neighbor {
 	 * @return
 	 */
 	public int getCost() {
-		// TODO
 		return cost;
 	}
 	
@@ -49,7 +51,6 @@ public class Neighbor {
 	 * 
 	 */
 	public String toString(){
-		// TODO
-		return "";
+		return "--" + cost + "--> " + neighborNode.getNodeName();
 	}
 }

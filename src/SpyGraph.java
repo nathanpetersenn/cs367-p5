@@ -18,6 +18,7 @@ public class SpyGraph implements Iterable<GraphNode> {
      */
     public SpyGraph(){
          // TODO initialize data member(s)
+    	vlist = new ArrayList<GraphNode>();
     }
 
     /**
@@ -88,7 +89,7 @@ public class SpyGraph implements Iterable<GraphNode> {
     public List<Neighbor> DFS(String start, String end) {
          // TODO implement this method
          // may need and create a companion method
-
+    	
         return null;
     }
 

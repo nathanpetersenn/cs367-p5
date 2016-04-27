@@ -39,7 +39,9 @@ public class SpyGraph implements Iterable<GraphNode> {
      * @throws IllegalArgumentException if the names are the same
      */
     public void addEdge(String v1name, String v2name, int cost) throws IllegalArgumentException{
-         // TODO implement this method
+    	if (v1name.equals(v2name)) throw new IllegalArgumentException();    	
+    	getNodeFromName(v1name).addNeighbor(getNodeFromName(v2name), cost);
+    	getNodeFromName(v2name).addNeighbor(getNodeFromName(v1name), cost);
     }
 
     /**
@@ -60,7 +62,33 @@ public class SpyGraph implements Iterable<GraphNode> {
     public List<Neighbor> BFS( String start, String end ) {
          // TODO implement this method
          // may need and create a companion method
-        return null;
+
+    	ArrayList<Neighbor> visited = new ArrayList<Neighbor>();
+    	
+    	Queue<GraphNode> q = new LinkedList<GraphNode>();
+    	    	
+    	q.add(getNodeFromName(start));
+    	
+    	while (!q.isEmpty()){
+    		GraphNode c = q.remove(); // c for current
+    		
+    		for (Neighbor n : c.getNeighbors()){
+    			if (n.getNeighborNode().getNodeName().equals(end)){
+    				// reached the end of the path
+    				return visited;
+    			}
+    			
+    			if (visited.contains(n)){
+    				// already visited this node
+    				continue;
+    			}
+    			
+    			visited.add(n);
+    			q.add(n.getNeighborNode());
+    		}
+    	}
+    	// return ret;
+        return new ArrayList<Neighbor>();
     }
 
 
@@ -69,10 +97,10 @@ public class SpyGraph implements Iterable<GraphNode> {
      * @return GraphNode associated with name, null if no such node exists
      */
     public GraphNode getNodeFromName(String name){
-        for ( GraphNode n : vlist ) {
-            if (n.getNodeName().equalsIgnoreCase(name))
-                return n;
+        for (GraphNode n : vlist) {
+            if (n.getNodeName().equalsIgnoreCase(name)) return n;
         }
+        
         return null;
     }
 
@@ -87,9 +115,39 @@ public class SpyGraph implements Iterable<GraphNode> {
          // TODO implement this method
          // may need and create a companion method
     	
-        return null;
-    }
+    	Stack<GraphNode> stack = new Stack<GraphNode>();
+    	List<Neighbor> visited = new ArrayList<Neighbor>();
+    	
+    	stack.add(getNodeFromName(start));
 
+    	while (!stack.isEmpty()) {
+    		GraphNode gn = stack.peek();
+    		
+    		Neighbor n = null;
+    		for (int i = 0; i < gn.getNeighbors().size(); i++) {
+    			n = gn.getNeighbors().get(i);
+    			if (!visited.contains(n)) break;
+    		}
+    		
+    		if (n != null) {
+    			// gn had unvisited successors
+    			visited.add(n);
+    			
+    			if (n.getNeighborNode().getNodeName().equals(end)) {
+    				return visited;
+    			}
+    			
+    			stack.push(n.getNeighborNode());
+    		} else {
+    			// all sucessors of gn were visited
+    			stack.pop();
+    		}
+    	}
+    	
+    	
+    	return new ArrayList<Neighbor>();
+    }
+    
     /**
      * OPTIONAL: Students are not required to implement Dijkstra's ALGORITHM
      *

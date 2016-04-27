@@ -5,8 +5,8 @@ public class GraphNode {
 	private String name;
 	// TODO - is NOT_NEIGHBOR final?
 	private static int NOT_NEIGHBOR;
-	List<Neighbor> neighbors;
-	
+	private List<Neighbor> neighbors;
+
 	/**
 	 * 
 	 * @param newName
@@ -27,6 +27,7 @@ public class GraphNode {
 		// TODO
 		Neighbor n = new Neighbor(cost, neighbor);
 		neighbors.add(n);
+		neighbors.sort(null);
 	}
 	
 	/**
@@ -45,11 +46,7 @@ public class GraphNode {
 	/**
 	 * 
 	 */
-	public void displayCostToEachNeighbor(){
-		for (Neighbor n : neighbors){
-			System.out.println(n.getNeighborNode().getNodeName() + "; " + n.getCost());
-		}
-	}
+	public void displayCostToEachNeighbor(){for (Neighbor n : neighbors) System.out.println(n.getNeighborNode().getNodeName() + "; " + n.getCost());}
 	
 	/**
 	 * 
@@ -72,7 +69,7 @@ public class GraphNode {
 	 * @return
 	 */
 	public GraphNode getNeighbor(String name){
-		// TODO
+		// TODO - fix this
 		return this.getNeighbor(name);
 	}
 	

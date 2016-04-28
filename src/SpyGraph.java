@@ -27,6 +27,8 @@ public class SpyGraph implements Iterable<GraphNode> {
      */
     public void addGraphNode(String name){
          // TODO implement this method
+    	vlist.add(new GraphNode(name));
+    	vlist.sort(null);
     }
 
     /**

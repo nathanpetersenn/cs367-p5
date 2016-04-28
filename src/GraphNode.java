@@ -29,25 +29,28 @@ public class GraphNode {
 		neighbors.add(n);
 		neighbors.sort(null);
 	}
-	
+
 	/**
 	 * 
 	 * @param otherNode
 	 * @return
 	 */
 	public int compareTo(GraphNode otherNode){
-		// TODO
 		int compare = this.getNodeName().compareTo(otherNode.getNodeName());
 		if (compare > 0) return 1;
 		if (compare < 0) return -1;
 		return 0;
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void displayCostToEachNeighbor(){for (Neighbor n : neighbors) System.out.println(n.getNeighborNode().getNodeName() + "; " + n.getCost());}
-	
+	public void displayCostToEachNeighbor(){
+		for (Neighbor n : neighbors){
+			System.out.println(n.getNeighborNode().getNodeName() + "; " + n.getCost());
+		}
+	}
+
 	/**
 	 * 
 	 * @param neighborName
@@ -55,14 +58,14 @@ public class GraphNode {
 	 */
 	public int getCostTo(String neighborName){
 		// TODO
-		for (int i=0; i<neighbors.size(); i++){
-			if (neighbors.get(i).getNeighborNode().equals(neighborName)){
-				return neighbors.get(i).getCost();
+		for (Neighbor n : neighbors){
+			if (n.getNeighborNode().equals(neighborName)){
+				return n.getCost();
 			}
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * 
 	 * @param name
@@ -72,27 +75,26 @@ public class GraphNode {
 		// TODO - fix this
 		return this.getNeighbor(name);
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public Iterator<String> getNeighborNames() {
 		// TODO Auto-generated method stub
-		
-		//return new Iterator<String>(this.getNeighbors());
-		return null;
+		//return neighbors.iterator();
+		return new Iterator<String>(this.getNeighbors());
+		//return null;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public List<Neighbor> getNeighbors() {
-		// TODO Auto-generated method stub
 		return neighbors;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -100,7 +102,7 @@ public class GraphNode {
 	public String getNodeName(){
 		return name;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -109,7 +111,7 @@ public class GraphNode {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * @param neighborName
@@ -118,22 +120,26 @@ public class GraphNode {
 	public boolean isNeighbor(String neighborName){
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 */
 	public void printNeighborNames(){
 		// TODO
+		for (Neighbor n : neighbors){
+			System.out.println(n.getNeighborNode().getNodeName());
+		}
 	}
-	
+
 	/**
 	 * 
 	 * @param cam
 	 */
 	public void setSpycam(boolean cam){
 		// TODO
+		
 	}
-	
+
 	/**
 	 * 
 	 */

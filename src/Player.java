@@ -6,7 +6,7 @@ public class Player {
 	private int budget;
 	private int spycams;
 	private GraphNode node;
-	
+	private static SpyGraph spyGraph;
 	/**
 	 * 
 	 * @param name
@@ -19,6 +19,7 @@ public class Player {
 		this.budget = budget;
 		this.spycams = spycams;
 		node = startNode;
+		spyGraph = new SpyGraph();
 	}
 
 	/**
@@ -107,7 +108,9 @@ public class Player {
 		// TODO
 
 //		Iterator<GraphNode> itr = vlist.iterator();
-//		
+
+		
+		
 //		while (itr.hasNext()){
 //			GraphNode gn = itr.next();
 //			if (gn.isNeighbor(name)){
@@ -116,6 +119,8 @@ public class Player {
 //				return true;
 //			}
 //		}
+		
+		
 		return false;
 	}
 	
@@ -125,7 +130,7 @@ public class Player {
 	 * @return
 	 */
 	public boolean pickupSpycam(GraphNode nodeFromName) {
-		// TODO Auto-generated method stub
+		// TODO 
 		if (node.getSpycam()){
 			// Has a spycam
 			
@@ -138,7 +143,7 @@ public class Player {
 	 * 
 	 */
 	public void printSpyCamLocations() {
-		// TODO Auto-generated method stub
-		
+		// TODO
+		System.out.println("");
 	}
 }

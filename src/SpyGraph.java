@@ -16,7 +16,6 @@ public class SpyGraph implements Iterable<GraphNode> {
      * Initializes an empty list of GraphNode objects
      */
     public SpyGraph(){
-         // TODO initialize data member(s)
     	vlist = new ArrayList<GraphNode>();
     }
 
@@ -26,9 +25,9 @@ public class SpyGraph implements Iterable<GraphNode> {
      * @param name The name of the new GraphNode to create and add to the list.
      */
     public void addGraphNode(String name){
-         // TODO implement this method
+    	if (vlist.contains(name)) throw new IllegalArgumentException();
     	vlist.add(new GraphNode(name));
-    	vlist.sort(null);
+    	Collections.sort(vlist);
     }
 
     /**
@@ -100,9 +99,8 @@ public class SpyGraph implements Iterable<GraphNode> {
      */
     public GraphNode getNodeFromName(String name){
         for (GraphNode n : vlist) {
-            if (n.getNodeName().equalsIgnoreCase(name)) return n;
+            if (n.getNodeName().equals(name)) return n;
         }
-        
         return null;
     }
 
@@ -124,8 +122,8 @@ public class SpyGraph implements Iterable<GraphNode> {
 
     	while (!stack.isEmpty()) {
     		GraphNode gn = stack.peek();
-    		
     		Neighbor n = null;
+    		
     		for (int i = 0; i < gn.getNeighbors().size(); i++) {
     			n = gn.getNeighbors().get(i);
     			if (!visited.contains(n)) break;

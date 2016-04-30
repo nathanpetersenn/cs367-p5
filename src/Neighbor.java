@@ -1,5 +1,5 @@
 
-public class Neighbor {
+public class Neighbor implements Comparable<Neighbor>{
 
 	int cost;
 	GraphNode neighborNode;

@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class GraphNode {
+public class GraphNode implements Comparable<GraphNode> {
 
 	private String name;
 	// TODO - Use NOT_NEIGHBOR for Dijkstra's
@@ -29,7 +29,7 @@ public class GraphNode {
 		if (neighbor == null || cost < 0) throw new IllegalArgumentException();
 		Neighbor n = new Neighbor(cost, neighbor);
 		neighbors.add(n);
-		neighbors.sort(null);
+		Collections.sort(neighbors);
 	}
 
 	/**
@@ -76,10 +76,12 @@ public class GraphNode {
 	 */
 	public GraphNode getNeighbor(String name) throws NotNeighborException {
 		if (name == null) throw new IllegalArgumentException();
-		Iterator<String> itr = getNeighborNames();
+		
+		Iterator<Neighbor> itr = neighbors.iterator();
 		while (itr.hasNext()){
-			if (itr.next().equals(name)){
-				return getNeighbor(name);
+			Neighbor n = itr.next();
+			if (n.getNeighborNode().getNodeName().equals(name)){
+				return n.getNeighborNode();
 			}
 		}
 		throw new NotNeighborException();
@@ -91,8 +93,10 @@ public class GraphNode {
 	 */
 	public Iterator<String> getNeighborNames() {
 		List<String> list = new ArrayList<String>();
-		for (int i=0; i<neighbors.size(); i++) {
-			list.add(neighbors.get(i).getNeighborNode().getNodeName());
+		System.out.println("neighbors size is " + neighbors.size());
+		// TODO
+		for (Neighbor n : neighbors){
+			list.add(n.getNeighborNode().getNodeName());
 		}
 		return list.iterator(); 
 	}

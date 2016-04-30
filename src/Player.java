@@ -29,8 +29,6 @@ public class Player {
 	 */
 	public void decreaseBudget(int dec) {
 		if (dec < 0 || budget - dec < 0) throw new IllegalArgumentException();
-		// TODO - when calling this, make sure we check that the cost
-		// between nodes is > 1, otherwise don't call this method
 		budget = budget - dec;
 	}
 
@@ -113,11 +111,21 @@ public class Player {
 	 * @return
 	 */
 	public boolean move(String name) {
+		System.out.println("entered move");
 		try {
 			GraphNode n = node.getNeighbor(name);
 			int cost = node.getCostTo(n.getNodeName());
-			if (cost > 1) decreaseBudget(cost);
+			if (cost > budget){
+				System.out.println("Not enough money cost is " + cost +
+						" budget is " + budget);
+
+				return false;
+			}
+			if (cost > 1) {
+				decreaseBudget(cost);
+			}
 			node = n;
+			System.out.println("Moved to " + n.getNodeName());
 			return true;
 		}
 		catch (NotNeighborException e){

@@ -22,7 +22,6 @@ public class Neighbor {
 	 * @return
 	 */
 	public int compareTo(Neighbor otherNode){
-		// TODO
 		int compare = otherNode.toString().compareTo(this.toString());
 		if (compare > 0) return 1;
 		if (compare < 0) return -1;
@@ -42,7 +41,6 @@ public class Neighbor {
 	 * @return
 	 */
 	public GraphNode getNeighborNode() {
-		// TODO
 		return neighborNode;
 	}
 

@@ -3,19 +3,21 @@ import java.util.*;
 public class GraphNode {
 
 	private String name;
-	// TODO - is NOT_NEIGHBOR final?
-	private static int NOT_NEIGHBOR;
+	// TODO - Use NOT_NEIGHBOR for Dijkstra's
+	//private static int NOT_NEIGHBOR;
 	private List<Neighbor> neighbors;
-
+	private boolean hasSpycam;
+	
 	/**
 	 * 
 	 * @param newName
 	 */
 	public GraphNode(String newName) {
-		// TODO Auto-generated constructor stub
+		if (newName == null) throw new IllegalArgumentException();
 		name = newName;
 		neighbors = new ArrayList<Neighbor>();
 		//NOT_NEIGHBOR = 0;
+		hasSpycam = false;
 	}
 
 	/**
@@ -24,7 +26,7 @@ public class GraphNode {
 	 * @param cost
 	 */
 	public void addNeighbor(GraphNode neighbor, int cost){
-		// TODO
+		if (neighbor == null || cost < 0) throw new IllegalArgumentException();
 		Neighbor n = new Neighbor(cost, neighbor);
 		neighbors.add(n);
 		neighbors.sort(null);
@@ -36,6 +38,7 @@ public class GraphNode {
 	 * @return
 	 */
 	public int compareTo(GraphNode otherNode){
+		if (otherNode == null) throw new IllegalArgumentException();
 		int compare = this.getNodeName().compareTo(otherNode.getNodeName());
 		if (compare > 0) return 1;
 		if (compare < 0) return -1;
@@ -47,7 +50,7 @@ public class GraphNode {
 	 */
 	public void displayCostToEachNeighbor(){
 		for (Neighbor n : neighbors){
-			System.out.println(n.getNeighborNode().getNodeName() + "; " + n.getCost());
+			System.out.println(n.getCost() + " " + n.getNeighborNode().getNodeName());
 		}
 	}
 
@@ -56,14 +59,14 @@ public class GraphNode {
 	 * @param neighborName
 	 * @return
 	 */
-	public int getCostTo(String neighborName){
-		// TODO
+	public int getCostTo(String neighborName) throws NotNeighborException {
+		if (neighborName == null) throw new IllegalArgumentException();
 		for (Neighbor n : neighbors){
 			if (n.getNeighborNode().equals(neighborName)){
 				return n.getCost();
 			}
 		}
-		return 0;
+		throw new NotNeighborException();
 	}
 
 	/**
@@ -71,9 +74,15 @@ public class GraphNode {
 	 * @param name
 	 * @return
 	 */
-	public GraphNode getNeighbor(String name){
-		// TODO - fix this
-		return this.getNeighbor(name);
+	public GraphNode getNeighbor(String name) throws NotNeighborException {
+		if (name == null) throw new IllegalArgumentException();
+		Iterator<String> itr = getNeighborNames();
+		while (itr.hasNext()){
+			if (itr.next().equals(name)){
+				return getNeighbor(name);
+			}
+		}
+		throw new NotNeighborException();
 	}
 
 	/**
@@ -81,10 +90,11 @@ public class GraphNode {
 	 * @return
 	 */
 	public Iterator<String> getNeighborNames() {
-		// TODO Auto-generated method stub
-		//return neighbors.iterator();
-		return new Iterator<String>(this.getNeighbors());
-		//return null;
+		List<String> list = new ArrayList<String>();
+		for (int i=0; i<neighbors.size(); i++) {
+			list.add(neighbors.get(i).getNeighborNode().getNodeName());
+		}
+		return list.iterator(); 
 	}
 
 	/**
@@ -108,8 +118,7 @@ public class GraphNode {
 	 * @return
 	 */
 	public boolean getSpycam() {
-		// TODO Auto-generated method stub
-		return false;
+		return hasSpycam;
 	}
 
 	/**
@@ -118,6 +127,12 @@ public class GraphNode {
 	 * @return
 	 */
 	public boolean isNeighbor(String neighborName){
+		Iterator<String> itr = getNeighborNames();
+		while (itr.hasNext()){
+			if (itr.next().equals(neighborName)){
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -125,10 +140,7 @@ public class GraphNode {
 	 * 
 	 */
 	public void printNeighborNames(){
-		// TODO
-		for (Neighbor n : neighbors){
-			System.out.println(n.getNeighborNode().getNodeName());
-		}
+		displayCostToEachNeighbor();
 	}
 
 	/**
@@ -136,7 +148,7 @@ public class GraphNode {
 	 * @param cam
 	 */
 	public void setSpycam(boolean cam){
-		// TODO
+		hasSpycam = cam;
 		
 	}
 
@@ -144,7 +156,6 @@ public class GraphNode {
 	 * 
 	 */
 	public String toString(){
-		// TODO
-		return "";
+		return name;
 	}
 }

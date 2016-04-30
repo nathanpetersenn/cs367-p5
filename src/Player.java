@@ -1,12 +1,13 @@
-import java.util.Iterator;
+import java.util.*;
 
 public class Player {
-	
+
 	private String name;
 	private int budget;
 	private int spycams;
 	private GraphNode node;
-	private static SpyGraph spyGraph;
+	private List<String> spycamNames;
+
 	/**
 	 * 
 	 * @param name
@@ -19,7 +20,7 @@ public class Player {
 		this.budget = budget;
 		this.spycams = spycams;
 		node = startNode;
-		spyGraph = new SpyGraph();
+		spycamNames = new ArrayList<String>();
 	}
 
 	/**
@@ -27,9 +28,9 @@ public class Player {
 	 * @param dec
 	 */
 	public void decreaseBudget(int dec) {
-		if (dec < 0 || budget - dec < 0){
-			throw new IllegalArgumentException();
-		}
+		if (dec < 0 || budget - dec < 0) throw new IllegalArgumentException();
+		// TODO - when calling this, make sure we check that the cost
+		// between nodes is > 1, otherwise don't call this method
 		budget = budget - dec;
 	}
 
@@ -44,10 +45,15 @@ public class Player {
 			return false;
 		}
 		// TODO - actually do this
-		spycams--;
+		if (!node.getSpycam()) {
+			node.setSpycam(true);
+			spycamNames.add(node.getNodeName());
+			spycams--;
+			return true;
+		}
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -55,7 +61,7 @@ public class Player {
 	public int getBudget() {
 		return budget;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -63,7 +69,7 @@ public class Player {
 	public GraphNode getLocation() {
 		return node;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -77,9 +83,9 @@ public class Player {
 	 * @return
 	 */
 	public String getName() {
-		return this.name;
+		return name;
 	}
-	
+
 	/**
 	 * 
 	 * @param pickupSpyCam
@@ -87,8 +93,10 @@ public class Player {
 	public void getSpycamBack(boolean pickupSpyCam){
 		if (pickupSpyCam){
 			spycams++;
+			node.setSpycam(false);
+			spycamNames.remove(node.getNodeName());
+
 		}
-		// TODO
 	}
 
 	/**
@@ -98,42 +106,36 @@ public class Player {
 	public int getSpycams() {
 		return spycams;
 	}
-	
+
 	/**
 	 * 
 	 * @param next
 	 * @return
 	 */
 	public boolean move(String name) {
-		// TODO
-
-//		Iterator<GraphNode> itr = vlist.iterator();
-
-		
-		
-//		while (itr.hasNext()){
-//			GraphNode gn = itr.next();
-//			if (gn.isNeighbor(name)){
-//				budget -= node.getCostTo(gn);
-//				node = gn;
-//				return true;
-//			}
-//		}
-		
-		
-		return false;
+		try {
+			GraphNode n = node.getNeighbor(name);
+			int cost = node.getCostTo(n.getNodeName());
+			if (cost > 1) decreaseBudget(cost);
+			node = n;
+			return true;
+		}
+		catch (NotNeighborException e){
+			return false;
+		}
 	}
-	
+
 	/**
 	 * 
 	 * @param nodeFromName
 	 * @return
 	 */
 	public boolean pickupSpycam(GraphNode nodeFromName) {
-		// TODO 
-		if (node.getSpycam()){
+		// TODO
+		if (nodeFromName.getSpycam()){
 			// Has a spycam
-			
+			nodeFromName.setSpycam(false);
+			spycamNames.remove(nodeFromName.getNodeName());
 			return true;
 		}
 		return false;
@@ -144,6 +146,8 @@ public class Player {
 	 */
 	public void printSpyCamLocations() {
 		// TODO
-		System.out.println("");
+		for (String i : spycamNames){
+			System.out.println(i);
+		}
 	}
 }

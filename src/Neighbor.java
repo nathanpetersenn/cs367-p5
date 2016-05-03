@@ -22,10 +22,15 @@ public class Neighbor implements Comparable<Neighbor>{
 	 * @return
 	 */
 	public int compareTo(Neighbor otherNode){
-		int compare = otherNode.toString().compareTo(this.toString());
-		if (compare > 0) return 1;
-		if (compare < 0) return -1;
-		return 0;
+		
+		if (cost == otherNode.getCost()){
+			int compare = neighborNode.getNodeName().compareTo(otherNode.getNeighborNode().getNodeName());
+			if (compare > 0) return 1;
+			if (compare < 0) return -1;
+			return 0;
+		}
+		if (cost > otherNode.getCost()) return 1;
+		return -1;
 	}
 	
 	/**
@@ -43,7 +48,7 @@ public class Neighbor implements Comparable<Neighbor>{
 	public GraphNode getNeighborNode() {
 		return neighborNode;
 	}
-
+	
 	/**
 	 * @return 
 	 * 

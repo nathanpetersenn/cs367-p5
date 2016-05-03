@@ -29,7 +29,11 @@ public class GraphNode implements Comparable<GraphNode> {
 		if (neighbor == null || cost < 0) throw new IllegalArgumentException();
 		Neighbor n = new Neighbor(cost, neighbor);
 		neighbors.add(n);
+		//printNeighborNames();
+		//System.out.println("******");
 		Collections.sort(neighbors);
+		//printNeighborNames();
+		//System.out.println("-----");
 	}
 
 	/**
@@ -62,7 +66,7 @@ public class GraphNode implements Comparable<GraphNode> {
 	public int getCostTo(String neighborName) throws NotNeighborException {
 		if (neighborName == null) throw new IllegalArgumentException();
 		for (Neighbor n : neighbors){
-			if (n.getNeighborNode().equals(neighborName)){
+			if (n.getNeighborNode().getNodeName().equals(neighborName)){
 				return n.getCost();
 			}
 		}

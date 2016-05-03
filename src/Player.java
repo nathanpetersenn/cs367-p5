@@ -37,16 +37,15 @@ public class Player {
 	 * @return
 	 */
 	public boolean dropSpycam() {
-		// TODO
 		if (spycams <= 0){
 			System.out.println("Not enough spycams");
 			return false;
 		}
-		// TODO - actually do this
 		if (!node.getSpycam()) {
 			node.setSpycam(true);
 			spycamNames.add(node.getNodeName());
 			spycams--;
+			System.out.println("Dropped a Spy Cam at " + node.getNodeName());
 			return true;
 		}
 		return false;
@@ -111,7 +110,6 @@ public class Player {
 	 * @return
 	 */
 	public boolean move(String name) {
-		System.out.println("entered move");
 		try {
 			GraphNode n = node.getNeighbor(name);
 			int cost = node.getCostTo(n.getNodeName());
@@ -125,10 +123,10 @@ public class Player {
 				decreaseBudget(cost);
 			}
 			node = n;
-			System.out.println("Moved to " + n.getNodeName());
 			return true;
 		}
 		catch (NotNeighborException e){
+			System.out.println(name + " is not a neighbor of your current location");
 			return false;
 		}
 	}
@@ -143,6 +141,7 @@ public class Player {
 		if (nodeFromName.getSpycam()){
 			// Has a spycam
 			nodeFromName.setSpycam(false);
+			spycams++;
 			spycamNames.remove(nodeFromName.getNodeName());
 			return true;
 		}
@@ -155,7 +154,7 @@ public class Player {
 	public void printSpyCamLocations() {
 		// TODO
 		for (String i : spycamNames){
-			System.out.println(i);
+			System.out.println("Spy cam at " + i);
 		}
 	}
 }

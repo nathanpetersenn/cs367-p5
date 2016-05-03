@@ -119,68 +119,94 @@ public class SpyGraph implements Iterable<GraphNode> {
 		return null;
 	}
 
-	/**
-	 * Return Depth First Search list of nodes on path 
-	 * from one Node to another.
-	 * @param start First node in DFS traversal
-	 * @param end Last node (match node) in DFS traversal
-	 * @return The DFS traversal from start to end node.
-	 */
-	public List<Neighbor> DFS2(String start, String end) {
-
-		List<Neighbor> visited = new ArrayList<Neighbor>();
-
-		DFS2(end, getNodeFromName(start), getNodeFromName(start).getNeighbors().get(0), visited);
-
-		return visited;
-	}
-
-
-	private void DFS2(String end, GraphNode currNode, Neighbor currNeighbor, List<Neighbor> visited){
-
-		visited.add(currNeighbor);
-		if (currNeighbor.getNeighborNode().getNodeName().equals(end)) return;
-		//if (currNode.getNodeName().equals(end)) return;
-
-		for (Neighbor n : currNeighbor.getNeighborNode().getNeighbors()){
-			boolean contains = false;
-			for (Neighbor v : visited){
-				if (v.getNeighborNode().getNodeName().equals(n.getNeighborNode().getNodeName()))
-					contains = true;
-			}
-
-			if (!contains && !currNode.getNodeName().equals(end))
-				DFS2(end, currNeighbor.getNeighborNode(), n, visited);
-		}
-	}
+//	/**
+//	 * Return Depth First Search list of nodes on path 
+//	 * from one Node to another.
+//	 * @param start First node in DFS traversal
+//	 * @param end Last node (match node) in DFS traversal
+//	 * @return The DFS traversal from start to end node.
+//	 */
+//	public List<Neighbor> DFS2(String start, String end) {
+//
+//		List<Neighbor> visited = new ArrayList<Neighbor>();
+//
+//		DFS2(end, getNodeFromName(start), getNodeFromName(start).getNeighbors().get(0), visited);
+//
+//		return visited;
+//	}
+//
+//
+//	private void DFS2(String end, GraphNode currNode, Neighbor currNeighbor, List<Neighbor> visited){
+//
+//		visited.add(currNeighbor);
+//		if (currNeighbor.getNeighborNode().getNodeName().equals(end)) return;
+//		//if (currNode.getNodeName().equals(end)) return;
+//
+//		for (Neighbor n : currNeighbor.getNeighborNode().getNeighbors()){
+//			boolean contains = false;
+//			for (Neighbor v : visited){
+//				if (v.getNeighborNode().getNodeName().equals(n.getNeighborNode().getNodeName()))
+//					contains = true;
+//			}
+//
+//			if (!contains && !currNode.getNodeName().equals(end))
+//				DFS2(end, currNeighbor.getNeighborNode(), n, visited);
+//		}
+//	}
 
 
 
 
 
 	public List<Neighbor> DFS(String start, String end) {
-
 		List<Neighbor> visited = new ArrayList<Neighbor>();
 		Stack<GraphNode> stack = new Stack<GraphNode>();
-
-
+		
 		stack.push(getNodeFromName(start));
 
 		while (!stack.isEmpty()){
-
-			GraphNode gn = stack.peek();
-
-			for (Neighbor n : gn.getNeighbors()){
-
+			GraphNode node = stack.peek();
+			Neighbor nextNeighbor = nextNeighbor(node, visited);
+			
+			if (nextNeighbor != null) {
+				visited.add(nextNeighbor);
 				
-
+				// stop if we get to end
+				if (nextNeighbor.getNeighborNode().getNodeName().equals(end)) {
+					return visited;
+				}
+				
+				stack.push(nextNeighbor.getNeighborNode());
+			} else {
+				stack.pop();
 			}
-
 		}
 
-
+		return new ArrayList<Neighbor>();
+	}
+	
+	private Neighbor nextNeighbor(GraphNode node, List<Neighbor> visited) {
+//		List<Neighbor> neighborsCopy = new ArrayList<Neighbor>(node.getNeighbors());
+//		Collections.sort(neighborsCopy, c);
+		
+		
+		
+		for (Neighbor adj : node.getNeighbors()) {
+			boolean contains = false;
+			
+			for (Neighbor v: visited) {
+				if (v.getNeighborNode().getNodeName().equals(adj.getNeighborNode().getNodeName())) {
+					contains = true;
+					break;
+				}
+			}
+			
+			if (!contains) return adj;
+		}
+		
 		return null;
 	}
+	
 
 
 

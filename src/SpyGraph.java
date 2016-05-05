@@ -61,8 +61,6 @@ public class SpyGraph implements Iterable<GraphNode> {
 	 * @return The BFS traversal from start to end node.
 	 */
 	public List<Neighbor> BFS(String start, String end) {
-		// TODO implement this method
-
 		// Create a list for the visited nodes and a queue the nodes nodes
 		List<Neighbor> visited = new ArrayList<Neighbor>();
 		Queue<GraphNode> queue = new LinkedList<GraphNode>();
@@ -159,6 +157,8 @@ public class SpyGraph implements Iterable<GraphNode> {
 
 
 	public List<Neighbor> DFS(String start, String end) {
+		// TODO - fix this yo
+		System.out.println("Enters DFS");
 		List<Neighbor> visited = new ArrayList<Neighbor>();
 		Stack<GraphNode> stack = new Stack<GraphNode>();
 		
@@ -166,7 +166,11 @@ public class SpyGraph implements Iterable<GraphNode> {
 
 		while (!stack.isEmpty()){
 			GraphNode node = stack.peek();
+			System.out.println("Node is " + node.getNodeName());
 			Neighbor nextNeighbor = nextNeighbor(node, visited);
+			
+			// THIS SHOULD PRINT OUT A
+			System.out.println("nextNeighbor is " + nextNeighbor.getNeighborNode().getNodeName());
 			
 			if (nextNeighbor != null) {
 				visited.add(nextNeighbor);
@@ -180,6 +184,7 @@ public class SpyGraph implements Iterable<GraphNode> {
 			} else {
 				stack.pop();
 			}
+			
 		}
 
 		return new ArrayList<Neighbor>();
@@ -188,8 +193,6 @@ public class SpyGraph implements Iterable<GraphNode> {
 	private Neighbor nextNeighbor(GraphNode node, List<Neighbor> visited) {
 //		List<Neighbor> neighborsCopy = new ArrayList<Neighbor>(node.getNeighbors());
 //		Collections.sort(neighborsCopy, c);
-		
-		
 		
 		for (Neighbor adj : node.getNeighbors()) {
 			boolean contains = false;

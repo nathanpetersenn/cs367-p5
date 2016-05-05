@@ -23,13 +23,13 @@ public class Neighbor implements Comparable<Neighbor>{
 	 */
 	public int compareTo(Neighbor otherNode){
 		
-		if (cost == otherNode.getCost()){
-			int compare = neighborNode.getNodeName().compareTo(otherNode.getNeighborNode().getNodeName());
-			if (compare > 0) return 1;
-			if (compare < 0) return -1;
+		int compare = neighborNode.getNodeName().compareTo(otherNode.getNeighborNode().getNodeName());
+		if (compare == 0){
+			if (cost > otherNode.getCost()) return 1;
+			if (cost < otherNode.getCost()) return -1;
 			return 0;
 		}
-		if (cost > otherNode.getCost()) return 1;
+		if (compare > 0) return 1;
 		return -1;
 	}
 	

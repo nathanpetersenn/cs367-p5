@@ -98,7 +98,7 @@ public class GraphNode implements Comparable<GraphNode> {
 	public Iterator<String> getNeighborNames() {
 		List<String> list = new ArrayList<String>();
 		System.out.println("neighbors size is " + neighbors.size());
-		// TODO
+
 		for (Neighbor n : neighbors){
 			list.add(n.getNeighborNode().getNodeName());
 		}

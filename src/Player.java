@@ -48,6 +48,7 @@ public class Player {
 			System.out.println("Dropped a Spy Cam at " + node.getNodeName());
 			return true;
 		}
+		System.out.println("Already a Spy Cam there");
 		return false;
 	}
 

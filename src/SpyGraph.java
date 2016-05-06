@@ -62,51 +62,47 @@ public class SpyGraph implements Iterable<GraphNode> {
 	 */
 	public List<Neighbor> BFS(String start, String end) {
 		// Create a list for the visited nodes and a queue the nodes nodes
-		List<Neighbor> visited = new ArrayList<Neighbor>();
-		Queue<GraphNode> queue = new LinkedList<GraphNode>();
-
-		// Add the start node to the queue
-		queue.add(getNodeFromName(start));
-
-		visited.add(new Neighbor(0, getNodeFromName(start)));
+		List<GraphNode> visitedNodes = new ArrayList<GraphNode>();
 		
-		// While the queue isn't empty
+		HashMap<GraphNode, Neighbor> prevEdgeOfNode = new HashMap<GraphNode, Neighbor>();
+		HashMap<Neighbor, GraphNode> prevNodeOfEdge = new HashMap<Neighbor, GraphNode>();
+
+		
+		Queue<GraphNode> queue = new LinkedList<GraphNode>();
+		
+		visitedNodes.add(getNodeFromName(start));
+		queue.add(getNodeFromName(start));
+		
 		while (!queue.isEmpty()) {
-
-			// Remove the first node from the queue
 			GraphNode curr = queue.remove();
-
-			List<Neighbor> nList = new ArrayList<Neighbor>(curr.getNeighbors());
-
-
-			//sortByCost(nList);
-			//Collections.sort(nList, new CostComparator());
-
-			// For of curr's neighbors
-			for (Neighbor succ : nList) {
-
+			
+			for (Neighbor succ : curr.getNeighbors()) {
+				if (alreadyVisited(succ.getNeighborNode(), visitedNodes)) continue;
 				
-				// If we didn't find a match in alreadyVisited, keep going
-				//if (alreadyVisited(succ, visited)) continue;
-
-				// Add the succ node to the visited list
-				visited.add(succ);
-
-				// If succ equals the end node, return the visited list
-				if (succ.getNeighborNode().getNodeName().equals(end)){
-					visited.remove(0);
-					return visited;
-				}
-
-				// Add succ to the queue
+				visitedNodes.add(succ.getNeighborNode());
 				queue.add(succ.getNeighborNode());
+				
+				prevEdgeOfNode.put(succ.getNeighborNode(), succ);
+				prevNodeOfEdge.put(succ, curr);
 			}
 		}
+		
+		List<Neighbor> ret = new ArrayList<Neighbor>();
+		
+		GraphNode endNode = getNodeFromName(end);
+		Neighbor edgeToEnd = prevEdgeOfNode.get(endNode);
+		GraphNode prevNodeToEdgeToEnd = prevNodeOfEdge.get(edgeToEnd);
+		
+		ret.add(edgeToEnd);
+		
+		while (!prevNodeToEdgeToEnd.getNodeName().equals(start)) {
+			endNode = prevNodeToEdgeToEnd;
+			edgeToEnd = prevEdgeOfNode.get(endNode);
+			prevNodeToEdgeToEnd = prevNodeOfEdge.get(edgeToEnd);
+			ret.add(0, edgeToEnd);
+		}
 
-		// never got to end... no path exists
-		visited.remove(0);
-		return visited;
-		//return new ArrayList<Neighbor>();
+		return ret;
 	}
 
 	private boolean alreadyVisited(GraphNode n, List<GraphNode> visitedNodes){
@@ -144,7 +140,7 @@ public class SpyGraph implements Iterable<GraphNode> {
 		List<Neighbor> visitedNeighbors = new ArrayList<Neighbor>();
 		List<GraphNode> visitedNodes = new ArrayList<GraphNode>();
 		
-		DFS(end, getNodeFromName(start), visitedNeighbors, visitedNodes);		
+		DFS(end, getNodeFromName(start), visitedNeighbors, visitedNodes);
 		return visitedNeighbors;
 	}
 

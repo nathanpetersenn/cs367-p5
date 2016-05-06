@@ -121,24 +121,6 @@ public class SpyGraph implements Iterable<GraphNode> {
 		
 		return contains;
 	}
-	
-//	private void sortByCost(List<Neighbor> nList) {
-//		for (int i = 1; i < nList.size(); i++){
-//			Neighbor temp = nList.get(i);
-//
-//			int j;
-//			for (j = i-1; j >= 0 && nList.get(j).getCost() > temp.getCost(); j--){
-//				Neighbor jayPlusOne = nList.get(j+1);
-//				Neighbor jay = nList.get(j);
-//				nList.remove(j);
-//				nList.add(j, jayPlusOne);
-//				nList.remove(j+1);
-//				nList.add(j+1, jay);
-//			}
-//			nList.remove(j+1);
-//			nList.add(j+1, temp);
-//		}
-//	}
 
 	/**
 	 * @param name Name corresponding to node to be returned
@@ -159,35 +141,10 @@ public class SpyGraph implements Iterable<GraphNode> {
 	 * @return The DFS traversal from start to end node.
 	 */
 	public List<Neighbor> DFS(String start, String end) {
-
 		List<Neighbor> visitedNeighbors = new ArrayList<Neighbor>();
 		List<GraphNode> visitedNodes = new ArrayList<GraphNode>();
 		
-		//visitedNodes.add(getNodeFromName(start));
-
 		DFS(end, getNodeFromName(start), visitedNeighbors, visitedNodes);		
-//		System.out.println("**********");
-//		System.out.println(visitedNeighbors);
-//		System.out.println(visitedNodes);
-		
-//		List<Neighbor> ret = new ArrayList<Neighbor>();
-//		int endIndex = 0;
-//		for (Neighbor n : visitedNeighbors){
-//			if (n.getNeighborNode().getNodeName().equals(end)){
-//				break;
-//			}
-//			endIndex++;
-//		}
-//		
-//		System.out.println(endIndex);
-//		
-//		while (endIndex >= 0){
-//			System.out.println("endIndex: " + endIndex + ", size: " + visitedNeighbors.size());
-//			Neighbor v = visitedNeighbors.get(endIndex--);
-//			if (v.getNeighborNode().getNodeName().equals(start)) break;
-//			ret.add(0, v);
-//		}
-		
 		return visitedNeighbors;
 	}
 
@@ -205,7 +162,7 @@ public class SpyGraph implements Iterable<GraphNode> {
 		}
 		
 		if (allNeighborsVisited(curr, visitedNodes) && !reachedEnd(end, visitedNodes)) {
-			Neighbor remvoed = visitedNeighbors.remove(visitedNeighbors.size() - 1); // pop()
+			visitedNeighbors.remove(visitedNeighbors.size() - 1); // pop()
 		}
 	}
 	
@@ -232,79 +189,6 @@ public class SpyGraph implements Iterable<GraphNode> {
 		
 		return true;
 	}
-
-	//	public List<Neighbor> DFS(String start, String end) {
-	//		// TODO - fix this
-	//		
-	//		// Creates a list to hold all visited neighbors and
-	//		// a stack to put GraphNodes in to be taken off
-	//		List<Neighbor> visited = new ArrayList<Neighbor>();
-	//		Stack<GraphNode> stack = new Stack<GraphNode>();
-	//		
-	//		//List<Neighbor> ret = new ArrayList<Neighbor>();
-	//		
-	//		// Add the start node to the stack
-	//		stack.push(getNodeFromName(start));
-	//		//visited.add(new Neighbor(0, getNodeFromName(start)));
-	//		
-	//		// While there's still stuff in the stack
-	//		while (!stack.isEmpty()){
-	//
-	//			// node is the GraphNode on the top of the stack
-	//			GraphNode node = stack.peek();
-	//			
-	//			// nextNeighbor is the next unvisited neighbor of node
-	//			Neighbor nextNeighbor = nextNeighbor(node, visited, start);
-	//			
-	//			// If there was a nextNeighbor
-	//			if (nextNeighbor != null) {
-	//				// Add nextNeighbor to the visited list
-	//				visited.add(nextNeighbor);
-	//				
-	//				// Stop if we get to end
-	//				if (nextNeighbor.getNeighborNode().getNodeName().equals(end)) {
-	//					return visited;
-	//				}
-	//				// Push the nextNeighbor onto the stack
-	//				stack.push(nextNeighbor.getNeighborNode());
-	//				
-	//			// If there wasn't a nextNeighbor, pop node off the stack
-	//			} else {
-	//				stack.pop();
-	//			}
-	//			
-	//		}
-	//		
-	//		return new ArrayList<Neighbor>();
-	//	}
-
-
-//	private Neighbor nextNeighbor(GraphNode node, List<Neighbor> visited, String start) {
-//		//		List<Neighbor> neighborsCopy = new ArrayList<Neighbor>(node.getNeighbors());
-//		//		Collections.sort(neighborsCopy, c);
-//
-//		for (Neighbor adj : node.getNeighbors()) {
-//			boolean alreadyVisited = false;
-//
-//			for (Neighbor v: visited) {
-//				if (v.getNeighborNode().getNodeName().equals(adj.getNeighborNode().getNodeName())) {
-//					alreadyVisited = true;
-//					break;
-//				}
-//			}
-//			// Shouldn't this be:
-//			// if (contains) return adj;
-//			// because if it DOES contain it, we want to return it
-//			if (!alreadyVisited && !adj.getNeighborNode().getNodeName().equals(start)){
-//				return adj;
-//			}
-//		}
-//		// If NO NODE was found, don't we then return null -- nothing was found
-//		return null;
-//	}
-
-
-
 
 	/**
 	 * OPTIONAL: Students are not required to implement Dijkstra's ALGORITHM
@@ -337,9 +221,3 @@ public class SpyGraph implements Iterable<GraphNode> {
 		return vlist.get(randomNodeIndex);
 	}
 }
-//class CostComparator implements Comparator<Neighbor> {
-//    @Override
-//    public int compare(Neighbor a, Neighbor b) {
-//        return a.getCost() - b.getCost();
-//    }
-//}
